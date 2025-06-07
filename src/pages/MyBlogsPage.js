@@ -7,15 +7,14 @@ import { FaEdit, FaTrash, FaEye, FaThumbsUp, FaComment } from 'react-icons/fa';
 const userBlogs = [
   {
     id: 1,
-    title: 'React Hooks Kullanım Rehberi',
-    excerpt: 'React Hooks ile fonksiyonel bileşenlerinizi nasıl daha güçlü hale getirebilirsiniz? Bu yazıda tüm detayları inceliyoruz.',
+    title: 'React Hooks ile Fonksiyonel Bileşenler',
+    excerpt: 'React Hooks kullanarak fonksiyonel bileşenlerin nasıl güçlendirilebileceğini detaylı bir şekilde inceliyoruz.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     author: 'Demo Kullanıcı',
-    date: '10 Nisan 2023',
+    date: '15 Nisan 2023',
     readTime: '6 dk okuma',
     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    category: 'Frontend',
-    tags: ['React', 'JavaScript', 'Web Development'],
+    category: 'React',
     likes: 24,
     comments: 8,
     views: 342,
@@ -24,18 +23,17 @@ const userBlogs = [
   {
     id: 2,
     title: 'Tailwind CSS ile Hızlı UI Geliştirme',
-    excerpt: 'Tailwind CSS kullanarak nasıl hızlı ve etkili bir şekilde modern kullanıcı arayüzleri geliştirebilirsiniz?',
+    excerpt: 'Tailwind CSS kullanarak nasıl hızlı ve bakımı kolay kullanıcı arayüzleri geliştirebilirsiniz?',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     author: 'Demo Kullanıcı',
-    date: '15 Mart 2023',
+    date: '22 Mart 2023',
     readTime: '5 dk okuma',
-    image: 'https://images.unsplash.com/photo-1591439657848-9f4b55b9e03c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'CSS',
-    tags: ['CSS', 'Tailwind', 'Frontend'],
-    likes: 17,
-    comments: 4,
-    views: 213,
-    status: 'draft' // published, draft
+    likes: 18,
+    comments: 5,
+    views: 253,
+    status: 'published'
   },
   {
     id: 3,
@@ -47,7 +45,6 @@ const userBlogs = [
     readTime: '7 dk okuma',
     image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'JavaScript',
-    tags: ['JavaScript', 'ES6', 'Programming'],
     likes: 32,
     comments: 12,
     views: 421,
@@ -55,50 +52,30 @@ const userBlogs = [
   }
 ];
 
-const BlogCard = ({ blog, onEdit, onDelete }) => {
+const BlogCard = ({ blog, onDelete, onEdit }) => {
   return (
     <motion.div 
-      className="bg-white rounded-lg shadow-md overflow-hidden"
       whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
+      className="overflow-hidden rounded-lg shadow-lg bg-white h-full flex flex-col"
     >
-      <div className="h-48 w-full relative">
+      <div className="relative pb-60 sm:pb-48">
         <img
-          className="h-full w-full object-cover"
+          className="absolute h-full w-full object-cover"
           src={blog.image}
           alt={blog.title}
           loading="lazy"
         />
-        <div className="absolute top-0 right-0 m-2">
-          <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium ${
-            blog.status === 'published' 
-              ? 'bg-green-100 text-green-800' 
-              : 'bg-yellow-100 text-yellow-800'
-          }`}>
-            {blog.status === 'published' ? 'Yayında' : 'Taslak'}
-          </span>
-        </div>
-        <div className="absolute top-0 left-0 m-2">
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
-            {blog.category}
-          </span>
-        </div>
+        {blog.status === 'draft' && (
+          <div className="absolute top-0 left-0 w-full bg-gray-800 bg-opacity-75 text-white text-xs font-medium text-center p-1">
+            Taslak
+          </div>
+        )}
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 hover:text-primary-600 transition-colors">
           <a href="#">{blog.title}</a>
         </h3>
         <p className="mt-3 text-base text-gray-500">{blog.excerpt}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {blog.tags.slice(0, 3).map((tag, index) => (
-            <span 
-              key={index} 
-              className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
         <div className="mt-4 flex justify-between items-center pt-4 border-t border-gray-100">
           <div className="flex space-x-4 text-gray-500">
             <span className="flex items-center text-sm">

@@ -15,7 +15,6 @@ const sampleBlogs = [
     readTime: '6 dk okuma',
     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'Frontend',
-    tags: ['React', 'JavaScript', 'Web Development'],
     likes: 24,
     comments: 8,
     views: 342
@@ -30,7 +29,6 @@ const sampleBlogs = [
     readTime: '5 dk okuma',
     image: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'CSS',
-    tags: ['CSS', 'Grid', 'Responsive Design'],
     likes: 18,
     comments: 5,
     views: 253
@@ -45,7 +43,6 @@ const sampleBlogs = [
     readTime: '7 dk okuma',
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'JavaScript',
-    tags: ['JavaScript', 'Async', 'Promise'],
     likes: 32,
     comments: 11,
     views: 427
@@ -60,7 +57,6 @@ const sampleBlogs = [
     readTime: '8 dk okuma',
     image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'Backend',
-    tags: ['Node.js', 'Express', 'API', 'REST'],
     likes: 45,
     comments: 23,
     views: 612
@@ -75,7 +71,6 @@ const sampleBlogs = [
     readTime: '9 dk okuma',
     image: 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'Mobile',
-    tags: ['React Native', 'Mobile', 'iOS', 'Android'],
     likes: 37,
     comments: 14,
     views: 489
@@ -90,7 +85,6 @@ const sampleBlogs = [
     readTime: '7 dk okuma',
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'Backend',
-    tags: ['GraphQL', 'API', 'Backend'],
     likes: 29,
     comments: 9,
     views: 376
@@ -116,39 +110,23 @@ const sortOptions = [
 
 const BlogCard = ({ blog }) => {
   return (
-    <motion.div 
-      className="bg-white rounded-lg shadow-md overflow-hidden"
-      whileHover={{ y: -10 }}
-      transition={{ duration: 0.3 }}
+    <motion.div
+      whileHover={{ y: -5 }}
+      className="overflow-hidden rounded-lg shadow-lg bg-white h-full flex flex-col"
     >
-      <div className="h-48 w-full relative">
+      <div className="relative pb-60 sm:pb-48">
         <img
-          className="h-full w-full object-cover"
+          className="absolute h-full w-full object-cover"
           src={blog.image}
           alt={blog.title}
           loading="lazy"
         />
-        <div className="absolute top-0 right-0 m-2">
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
-            {blog.category}
-          </span>
-        </div>
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 hover:text-primary-600 transition-colors">
           <a href="#">{blog.title}</a>
         </h3>
         <p className="mt-3 text-base text-gray-500">{blog.excerpt}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {blog.tags.slice(0, 3).map((tag, index) => (
-            <span 
-              key={index} 
-              className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
         <div className="mt-6 flex items-center">
           <div className="flex-shrink-0">
             <span className="sr-only">{blog.author}</span>
@@ -214,8 +192,7 @@ const BlogPage = ({ isLoggedIn }) => {
         blog =>
           blog.title.toLowerCase().includes(lowerSearchTerm) ||
           blog.excerpt.toLowerCase().includes(lowerSearchTerm) ||
-          blog.author.toLowerCase().includes(lowerSearchTerm) ||
-          blog.tags.some(tag => tag.toLowerCase().includes(lowerSearchTerm))
+          blog.author.toLowerCase().includes(lowerSearchTerm)
       );
     }
 

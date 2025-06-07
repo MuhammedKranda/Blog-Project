@@ -25,7 +25,6 @@ const CreateBlogPage = ({ user }) => {
     content: '',
     excerpt: '',
     category: '',
-    tags: '',
     image: null,
     imagePreview: null,
   });
@@ -124,10 +123,6 @@ const CreateBlogPage = ({ user }) => {
 
     if (!formData.category) {
       newErrors.category = 'Kategori seçilmelidir';
-    }
-
-    if (!formData.tags.trim()) {
-      newErrors.tags = 'En az bir etiket girilmelidir';
     }
 
     if (!formData.image) {
@@ -308,59 +303,31 @@ const CreateBlogPage = ({ user }) => {
               </div>
             </div>
 
-            {/* Category and Tags */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                  Kategori <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="category"
-                    name="category"
-                    className={`block w-full px-4 py-3 border ${
-                      errors.category ? 'border-red-300' : 'border-gray-300'
-                    } rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500`}
-                    value={formData.category}
-                    onChange={handleChange}
-                  >
-                    <option value="">Kategori Seçin</option>
-                    {categories.map((category) => (
-                      <option key={category.value} value={category.value}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.category && (
-                    <p className="mt-1 text-sm text-red-600">{errors.category}</p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="tags" className="block text-sm font-medium text-gray-700">
-                  Etiketler <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="tags"
-                    id="tags"
-                    className={`block w-full px-4 py-3 border ${
-                      errors.tags ? 'border-red-300' : 'border-gray-300'
-                    } rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500`}
-                    placeholder="Etiketleri virgülle ayırın (React, JavaScript, Web)"
-                    value={formData.tags}
-                    onChange={handleChange}
-                  />
-                  {errors.tags ? (
-                    <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
-                  ) : (
-                    <p className="mt-1 text-xs text-gray-500">
-                      İlgili etiketler eklemek, yazınızın daha fazla kişiye ulaşmasını sağlar
-                    </p>
-                  )}
-                </div>
+            {/* Category */}
+            <div>
+              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                Kategori <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1">
+                <select
+                  id="category"
+                  name="category"
+                  className={`block w-full px-4 py-3 border ${
+                    errors.category ? 'border-red-300' : 'border-gray-300'
+                  } rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500`}
+                  value={formData.category}
+                  onChange={handleChange}
+                >
+                  <option value="">Kategori Seçin</option>
+                  {categories.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.category && (
+                  <p className="mt-1 text-sm text-red-600">{errors.category}</p>
+                )}
               </div>
             </div>
 

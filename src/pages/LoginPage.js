@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { login } from '../api/user';
+import { setCookie } from '../helpers/helpers';
 
 const LoginPage = ({ onLogin, message }) => {
   const navigate = useNavigate();
@@ -46,22 +48,30 @@ const LoginPage = ({ onLogin, message }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        // Demo user data - in a real app, this would come from your backend
-        const userData = {
-          id: 1,
-          name: 'Demo Kullanıcı',
-          email: formData.email,
-        };
-        onLogin(userData);
+      try {
+        const response = await login(formData);
+        if (response) {
+          // Token'ı cookie'ye kaydet
+          if (response.token) {
+            setCookie('user_token', response.token, { expires: 7 }); // 7 gün geçerli
+          }
+          navigate('/', { 
+            state: { 
+              message: 'Giriş başarılı!' 
+            } 
+          });
+        }
+      } catch (error) {
+        setErrors({
+          submit: error.response?.data?.error || 'Şifre veya e-posta adresi hatalı'
+        });
+      } finally {
         setIsLoading(false);
-        navigate('/');
-      }, 1500);
+      }
     }
   };
 

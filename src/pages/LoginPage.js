@@ -33,9 +33,7 @@ const LoginPage = ({ onLogin, message }) => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.email.trim()) {
-      newErrors.email = 'E-posta adresi gerekli';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Geçerli bir e-posta adresi girin';
+      newErrors.email = 'E-posta adresi veya kullanıcı adı gerekli';
     }
 
     if (!formData.password) {
@@ -54,10 +52,16 @@ const LoginPage = ({ onLogin, message }) => {
       setIsLoading(true);
       try {
         const response = await login(formData);
+        console.log('Login response:', response); // Debug
         if (response) {
-          // Token'ı cookie'ye kaydet
-          if (response.token) {
-            setCookie('user_token', response.token, { expires: 7 }); // 7 gün geçerli
+          // User bilgilerini de cookie'ye kaydet (API zaten token'ı kaydediyor)
+          if (response.user) {
+            setCookie('user_data', JSON.stringify(response.user), { expires: 7 });
+          }
+          // App.js'teki state'i güncelle
+          if (onLogin) {
+            console.log('Calling onLogin with:', response.user || response); // Debug
+            onLogin(response.user || response);
           }
           navigate('/', { 
             state: { 
@@ -103,20 +107,20 @@ const LoginPage = ({ onLogin, message }) => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                E-posta Adresi
+                E-posta Adresi veya Kullanıcı Adı
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaEnvelope className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   className={`block w-full pl-10 pr-3 py-2 border ${
                     errors.email ? 'border-red-300' : 'border-gray-300'
                   } rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500`}
-                  placeholder="ornek@email.com"
+                  placeholder="ornek@email.com veya kullanıcı adı"
                   value={formData.email}
                   onChange={handleChange}
                   aria-describedby="email-error"

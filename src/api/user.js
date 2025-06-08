@@ -68,8 +68,7 @@ export const register = async (data) => {
 export const login = async (data) => {
     try {
         const userLogin = {
-            email: data.email,
-            username: data.username,
+            input: data.email,
             password: data.password,
         }
         const response = await baseURL.post("/api/users/login", userLogin);
@@ -97,7 +96,10 @@ export const logout = async () => {
 };
 
 export const isAuthenticated = () => {
-    return !!getCookies('authToken');
+    const token = getCookies('authToken');
+    console.log('Token from cookie:', token);
+    console.log('Token exists?:', !!token);
+    return !!token;
 };
 
 export default baseURL;

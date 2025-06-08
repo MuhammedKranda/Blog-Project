@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { isAuthenticated, logout } from './api/user';
 
 // Components
 import Header from './components/Header';
@@ -17,14 +18,35 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
+  // Check authentication status on component mount
+  useEffect(() => {
+    console.log('Checking authentication status...');
+    const authStatus = isAuthenticated();
+    console.log('isAuthenticated result:', authStatus);
+    
+    if (authStatus) {
+      console.log('User is authenticated, setting isLoggedIn to true');
+      setIsLoggedIn(true);
+      // Note: You might want to fetch user data here if needed
+    } else {
+      console.log('User is not authenticated');
+    }
+  }, []);
+
   const handleLogin = (userData) => {
     setIsLoggedIn(true);
     setUser(userData);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setIsLoggedIn(false);
+      setUser(null);
+    }
   };
 
   const updateUser = (updatedUserData) => {

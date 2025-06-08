@@ -7,6 +7,8 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  console.log('Header rendered - isLoggedIn:', isLoggedIn, 'user:', user);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -36,9 +38,14 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
                 Bloglar
               </Link>
               {isLoggedIn && (
-                <Link to="/my-blogs" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-50">
-                  Bloglarım
-                </Link>
+                <>
+                  <Link to="/create-blog" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-50">
+                    Blog Oluştur
+                  </Link>
+                  <Link to="/my-blogs" className="px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-50">
+                    Bloglarım
+                  </Link>
+                </>
               )}
             </nav>
           </div>
@@ -133,13 +140,22 @@ const Header = ({ isLoggedIn, user, onLogout }) => {
               Bloglar
             </Link>
             {isLoggedIn && (
-              <Link
-                to="/my-blogs"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
-                onClick={toggleMenu}
-              >
-                Bloglarım
-              </Link>
+              <>
+                <Link
+                  to="/create-blog"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
+                  onClick={toggleMenu}
+                >
+                  Blog Oluştur
+                </Link>
+                <Link
+                  to="/my-blogs"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
+                  onClick={toggleMenu}
+                >
+                  Bloglarım
+                </Link>
+              </>
             )}
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
